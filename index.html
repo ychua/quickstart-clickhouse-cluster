@@ -182,7 +182,7 @@ p a>code:hover{color:rgba(0,0,0,.9)}
   padding-top:0;
   overflow:hidden;
   background:#283e5b;
-  border-bottom: 4px solid #435c7c;
+  /* border-bottom: 4px solid #435c7c; */
   width:320px;
   height:154px;
   top:0;
@@ -411,7 +411,7 @@ span.icon>.fa{cursor:default}
 a span.icon>.fa{cursor:inherit}
 .admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
 .admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
-.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";color: rgb(3, 87, 21);}
 .admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
 .admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
 .admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
@@ -747,8 +747,43 @@ p {
   font-weight  : 300 !important;
 }
 
-#toc.toc2 #toctitle{
-  background-image: url('images/AWS-Logo.svg');
+/* image layout */
+#toc.toc2 #toctitle {
+  background-image: url("images/AWS-Logo.svg");
+  background-repeat: no-repeat;
+  background-size: 50%;
+  background-position: center;
+  width: auto;
+  height: 15%;
+}
+
+/* Left Navbar size */
+#toc.toc2 {
+  width: 17%;
+  min-width: 15em;
+}
+
+/* auto width for main page */
+body.toc2 {
+  padding-left: 22%;
+  padding-right: 2%;
+}
+
+/* hide left nav bar if page size is smaller than 767px */
+@media screen and (max-width: 767px) {
+  #toc {
+      display: none !important;
+  }
+  body.toc2 {
+    padding-left: 1%;
+    padding-right: 1%;
+    position: relative;
+  }
+
+  #content {
+    padding-left: 2%;
+    padding-right: 2%;
+  }
 }
 
 /* QS Tables */
@@ -813,6 +848,7 @@ p.footer-text a{color:#d7d8d8}
 <li><a href="#_best_practices_for_using_clickhouse_on_aws">Best practices for using ClickHouse on AWS</a></li>
 <li><a href="#_faq">FAQ</a></li>
 <li><a href="#_troubleshooting">Troubleshooting</a></li>
+<li><a href="#_customer_responsibility">Customer responsibility</a></li>
 <li><a href="#_parameter_reference">Parameter reference</a></li>
 <li><a href="#_send_us_feedback">Send us feedback</a></li>
 <li><a href="#_quick_start_reference_deployments">Quick Start reference deployments</a></li>
@@ -904,7 +940,7 @@ see the pricing pages for each AWS service you use. Prices are subject to change
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-After you deploy the Quick Start, <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-reports-gettingstarted-turnonreports.html" target="_blank" rel="noopener">create AWS Cost and Usage Reports</a> to deliver billing metrics to an Amazon Simple Storage Service (Amazon S3) bucket in your account. These reports provide cost estimates based on usage throughout each month and aggregate the data at the end of the month. For more information, see <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-reports-costusage.html" target="_blank" rel="noopener">What are AWS Cost and Usage Reports?</a>
+After you deploy the Quick Start, create <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-reports-gettingstarted-turnonreports.html" target="_blank" rel="noopener">AWS Cost and Usage Reports</a> to deliver billing metrics to an Amazon Simple Storage Service (Amazon S3) bucket in your account. These reports provide cost estimates based on usage throughout each month and aggregate the data at the end of the month. For more information, see <a href="https://docs.aws.amazon.com/cur/latest/userguide/what-is-cur.html" target="_blank" rel="noopener">What are AWS Cost and Usage Reports?</a>
 </td>
 </tr>
 </table>
@@ -1068,7 +1104,7 @@ deploy, and operate your infrastructure and applications on the AWS Cloud.</p>
 <div class="sect3">
 <h4 id="_resource_quotas">Resource quotas</h4>
 <div class="paragraph">
-<p>If necessary, request <a href="https://console.aws.amazon.com/servicequotas/home?region=us-east-2#!/" target="_blank" rel="noopener">service quota increases</a> for the following resources. You might request quota increases to avoid exceeding the default limits for any resources that are shared across multiple deployments. The <a href="https://console.aws.amazon.com/servicequotas/home?region=us-east-2#!/" target="_blank" rel="noopener">Service Quotas console</a> displays your usage and quotas for some aspects of some services. For more information, see <a href="https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html" target="_blank" rel="noopener">What is Service Quotas?</a> and <a href="https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html" target="_blank" rel="noopener">AWS service quotas</a>.</p>
+<p>If necessary, request <a href="https://console.aws.amazon.com/servicequotas/home?region=us-east-2#!/" target="_blank" rel="noopener">service quota increases</a> for the following resources. You might need to request increases if your existing deployment currently uses these resources and if this Quick Start deployment could result in exceeding the default quotas. The <a href="https://console.aws.amazon.com/servicequotas/home?region=us-east-2#!/" target="_blank" rel="noopener">Service Quotas console</a> displays your usage and quotas for some aspects of some services. For more information, see <a href="https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html" target="_blank" rel="noopener">What is Service Quotas?</a> and <a href="https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html" target="_blank" rel="noopener">AWS service quotas</a>.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -1134,9 +1170,12 @@ deploy, and operate your infrastructure and applications on the AWS Cloud.</p>
 </table>
 </div>
 <div class="sect3">
-<h4 id="_supported_regions">Supported Regions</h4>
+<h4 id="_supported_aws_regions">Supported AWS Regions</h4>
 <div class="paragraph">
-<p>This Quick Start is available in all AWS Regions. For more information, see <a href="https://docs.aws.amazon.com/general/latest/gr/rande.html">AWS service endpoints</a>.</p>
+<p>For any Quick Start to work in a Region other than its default Region, all the services it deploys must be supported in that Region. You can launch a Quick Start in any Region and see if it works. If you get an error such as “Unrecognized resource type,” the Quick Start is not supported in that Region.</p>
+</div>
+<div class="paragraph">
+<p>For an up-to-date list of AWS Regions and the AWS services they support, see <a href="https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/" target="_blank" rel="noopener">AWS Regional Services</a>.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -1243,7 +1282,7 @@ If you’re deploying ClickHouse into an existing VPC, make sure that your VPC h
 <p>On the <strong>Specify stack details</strong> page, change the stack name if needed. Review the parameters for the template. Provide values for the parameters that require input. For all other parameters, review the default settings and customize them as necessary. For details on each parameter, see the <a href="#_parameter_reference">Parameter reference</a> section of this guide. When you finish reviewing and customizing the parameters, choose <strong>Next</strong>.</p>
 </li>
 <li>
-<p>On the <strong>Configure stack options</strong> page, you can <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html" target="_blank" rel="noopener">specify tags</a> (key-value pairs) for resources in your stack and <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-add-tags.html" target="_blank" rel="noopener">set advanced options</a>. When you’re finished, choose <strong>Next</strong>.</p>
+<p>On the <strong>Configure stack options</strong> page, you can <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html" target="_blank" rel="noopener">specify tags</a> (key-value pairs) for resources in your stack and <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-add-tags.html" target="_blank" rel="noopener">set advanced options</a>. When you finish, choose <strong>Next</strong>.</p>
 </li>
 <li>
 <p>On the <strong>Review</strong> page, review and confirm the template settings. Under <strong>Capabilities</strong>, select the two check boxes to acknowledge that the template creates IAM resources and might require the ability to automatically expand macros.</p>
@@ -1255,15 +1294,9 @@ If you’re deploying ClickHouse into an existing VPC, make sure that your VPC h
 <p>Monitor the status of the stack. When the status is <strong>CREATE_COMPLETE</strong>, the ClickHouse deployment is ready.</p>
 </li>
 <li>
-<p>Use the values displayed in the <strong>Outputs</strong> tab for the stack, as shown in <a href="#cfn_outputs">Figure 2</a>, to view the created resources.</p>
+<p>To view the created resources, see the values displayed in the <strong>Outputs</strong> tab for the stack.</p>
 </li>
 </ol>
-</div>
-<div id="cfn_outputs" class="imageblock">
-<div class="content">
-<a class="image" href="images/cfn_outputs.png"><img src="images/cfn_outputs.png" alt="cfn_outputs" width="100%" height="100%"></a>
-</div>
-<div class="title">Figure 2. ClickHouse outputs after successful deployment</div>
 </div>
 </div>
 <div class="sect2">
@@ -1314,7 +1347,7 @@ If you’re deploying ClickHouse into an existing VPC, make sure that your VPC h
 <p>Open the <a href="https://console.aws.amazon.com/ec2/">Amazon EC2 console</a>.</p>
 </li>
 <li>
-<p>On the <strong>Instances</strong> screen, select the checkbox for the instance. Note the <strong>Private IPs</strong> in the <strong>Description</strong> tab, as shown in <a href="#IPaddress">Figure 3</a>.</p>
+<p>On the <strong>Instances</strong> screen, select the checkbox for the instance. Note the <strong>Private IPs</strong> in the <strong>Description</strong> tab, as shown in <a href="#IPaddress">Figure 2</a>.</p>
 </li>
 </ol>
 </div>
@@ -1325,7 +1358,7 @@ If you’re deploying ClickHouse into an existing VPC, make sure that your VPC h
 <div class="content">
 <a class="image" href="images/ec2.png"><img src="images/ec2.png" alt="ClickHouseClientAddress" width="75%" height="75%"></a>
 </div>
-<div class="title">Figure 3. EC2 instance private IP address</div>
+<div class="title">Figure 2. EC2 instance private IP address</div>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="5">
@@ -1398,7 +1431,7 @@ Run "sudo yum update" to apply all updates.
 <div class="content">
 <a class="image" href="images/SwitchyOmega1.png"><img src="images/switchyOmega1.png" alt="SwitchyOmega" width="50%" height="50%"></a>
 </div>
-<div class="title">Figure 4. Add new SwitchyOmega profile</div>
+<div class="title">Figure 3. Add new SwitchyOmega profile</div>
 </div>
 </li>
 <li>
@@ -1407,7 +1440,7 @@ Run "sudo yum update" to apply all updates.
 <div class="content">
 <a class="image" href="images/SwitchyOmega2.png"><img src="images/switchyOmega2.png" alt="SwitchyOmega" width="50%" height="50%"></a>
 </div>
-<div class="title">Figure 5. Profile name</div>
+<div class="title">Figure 4. Profile name</div>
 </div>
 </li>
 <li>
@@ -1416,7 +1449,7 @@ Run "sudo yum update" to apply all updates.
 <div class="content">
 <a class="image" href="images/SwitchyOmega3.png"><img src="images/SwitchyOmega3.png" alt="SwitchyOmega" width="50%" height="50%"></a>
 </div>
-<div class="title">Figure 6. Proxy servers</div>
+<div class="title">Figure 5. Proxy servers</div>
 </div>
 </li>
 <li>
@@ -1428,7 +1461,7 @@ Run "sudo yum update" to apply all updates.
 <div class="content">
 <a class="image" href="images/SwitchyOmega4.png"><img src="images/switchyOmega4.png" alt="SwitchyOmega" width="50%" height="50%"></a>
 </div>
-<div class="title">Figure 7. Proxy list</div>
+<div class="title">Figure 6. Proxy list</div>
 </div>
 </li>
 </ol>
@@ -1440,13 +1473,13 @@ Run "sudo yum update" to apply all updates.
 <div class="content">
 <a class="image" href="images/ec2.png"><img src="images/ec2.png" alt="ec2" width="90%" height="90%"></a>
 </div>
-<div class="title">Figure 8. Private IP address of the ClickHouse client host in the EC2 console</div>
+<div class="title">Figure 7. Private IP address of the ClickHouse client host in the EC2 console</div>
 </div>
 <div id="webconsole" class="imageblock">
 <div class="content">
 <a class="image" href="images/GrafanaConsole.png"><img src="images/GrafanaConsole.png" alt="console" width="90%" height="90%"></a>
 </div>
-<div class="title">Figure 9. Grafana web console</div>
+<div class="title">Figure 8. Grafana web console</div>
 </div>
 </li>
 </ol>
@@ -1459,7 +1492,7 @@ Run "sudo yum update" to apply all updates.
 <div class="content">
 <a class="image" href="images/cloudformation_outputs.png"><img src="images/cloudformation_outputs.png" alt="console" width="90%" height="90%"></a>
 </div>
-<div class="title">Figure 10. CloudFormation outputs</div>
+<div class="title">Figure 9. CloudFormation outputs</div>
 </div>
 </li>
 </ol>
@@ -1472,7 +1505,7 @@ Run "sudo yum update" to apply all updates.
 <div class="content">
 <a class="image" href="images/secretsmanager.png"><img src="images/secretsmanager.png" alt="console" width="90%" height="90%"></a>
 </div>
-<div class="title">Figure 11. Secrets Manager console</div>
+<div class="title">Figure 10. Secrets Manager console</div>
 </div>
 </li>
 </ol>
@@ -1607,6 +1640,14 @@ When you set <strong>Rollback on failure</strong> to <strong>Disabled</strong>, 
 </div>
 </div>
 <div class="sect1">
+<h2 id="_customer_responsibility">Customer responsibility</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>After you successfully deploy this Quick Start, confirm that your resources and services are updated and configured — including any required patches — to meet your security and other needs. For more information, see the <a href="https://aws.amazon.com/compliance/shared-responsibility-model/" target="_blank" rel="noopener">AWS Shared Responsibility Model</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_parameter_reference">Parameter reference</h2>
 <div class="sectionbody">
 <div class="admonitionblock note">
@@ -1616,8 +1657,7 @@ When you set <strong>Rollback on failure</strong> to <strong>Disabled</strong>, 
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Unless you are customizing the Quick Start templates for your own deployment projects, we recommend that you keep the default settings for the parameters labeled <code>Quick Start S3 bucket name</code>, <code>Quick Start S3 bucket
-Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parameter settings automatically updates code references to point to a new Quick Start location. For more information, see the <a href="https://aws-quickstart.github.io/option1.html" target="_blank" rel="noopener">AWS Quick Start Contributor’s Guide</a>.
+Unless you are customizing the Quick Start templates for your own deployment projects, keep the default settings for the parameters labeled <strong>Quick Start S3 bucket name</strong>, <strong>Quick Start S3 bucket Region</strong>, and <strong>Quick Start S3 key prefix</strong>. Changing these parameter settings automatically updates code references to point to a new Quick Start location. For more information, see the <a href="https://aws-quickstart.github.io/option1.html" target="_blank" rel="noopener">AWS Quick Start Contributor’s Guide</a>.
 </td>
 </tr>
 </table>
@@ -1636,7 +1676,7 @@ Region</code>, and <code>Quick Start S3 key prefix</code>. Changing these parame
 <h2 id="_quick_start_reference_deployments">Quick Start reference deployments</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>See the <a href="https://aws.amazon.com/quickstart/">AWS Quick Start home page</a>.</p>
+<p>See the <a href="https://aws.amazon.com/quickstart/" target="_blank" rel="noopener">AWS Quick Start home page</a>.</p>
 </div>
 </div>
 </div>
@@ -1672,10 +1712,10 @@ and to share your customizations with others.</p>
 </html>
 <!--
 repo commit:
-65eb2b5acabc1df943abb15b9753ca9098144195
+c62103dfe793065a0d4b8c86c0ff9baf7359cc30
 
 submodule config:
- 59b9927c61cd1831141cf0350520c89abb2246da docs/boilerplate (remotes/origin/revert-131-doc-edits-25-g59b9927)
+ eea042d0b9c005d2549a71349e5f28b02c81af75 docs/boilerplate (heads/main)
  ffc7af4e59a09dbf52199a3ecf70f3805abeff48 submodules/quickstart-aws-vpc (v1.0-58-gffc7af4)
  b9950be657d8a8c76e71fca157b4952a587342f4 submodules/quickstart-linux-bastion (remotes/origin/logging-70-gb9950be)
 -->

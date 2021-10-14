@@ -840,16 +840,20 @@ p.footer-text a{color:#d7d8d8}
 <ul class="sectlevel2">
 <li><a href="#_confirm_your_aws_account_configuration">Confirm your AWS account configuration</a></li>
 <li><a href="#_launch_the_quick_start">Launch the Quick Start</a></li>
-<li><a href="#_logging_into_a_clickhouse_server_node">Logging into a ClickHouse server node</a></li>
-<li><a href="#_viewing_the_grafana_web_console_in_a_browser">Viewing the Grafana web console in a browser</a></li>
-<li><a href="#_clickhouse_resources">ClickHouse resources</a></li>
+<li><a href="#_log_in_to_a_clickhouse_server_node">Log in to a ClickHouse server node</a></li>
+<li><a href="#_grafana_web_console">Grafana web console</a></li>
 </ul>
 </li>
-<li><a href="#_best_practices_for_using_clickhouse_on_aws">Best practices for using ClickHouse on AWS</a></li>
+<li><a href="#_resources">Resources</a>
+<ul class="sectlevel2">
+<li><a href="#_clickhouse_server_nodes">ClickHouse server nodes</a></li>
+<li><a href="#_clickhouse_client_nodes">ClickHouse client nodes</a></li>
+<li><a href="#_zookeeper_server_nodes">ZooKeeper server nodes</a></li>
+</ul>
+</li>
+<li><a href="#_clickhouse_resources">ClickHouse resources</a></li>
 <li><a href="#_faq">FAQ</a></li>
-<li><a href="#_troubleshooting">Troubleshooting</a></li>
 <li><a href="#_customer_responsibility">Customer responsibility</a></li>
-<li><a href="#_parameter_reference">Parameter reference</a></li>
 <li><a href="#_send_us_feedback">Send us feedback</a></li>
 <li><a href="#_quick_start_reference_deployments">Quick Start reference deployments</a></li>
 <li><a href="#_github_repository">GitHub repository</a></li>
@@ -868,8 +872,9 @@ p.footer-text a{color:#d7d8d8}
 </div>
 </div>
 <div class="paragraph text-center">
-<p><strong>July 2021</strong><br>
-<em>Troy Ameigh, AWS Quick Start team</em></p>
+<p><strong>October 2021</strong><br>
+<em>Wei Qiao, AWS Great China Region Solution team</em><br>
+<em>Troy Ameigh, AWS Integration &amp; Automation team</em></p>
 </div>
 <div class="admonitionblock tip text-left">
 <table>
@@ -885,7 +890,7 @@ report bugs, or submit feature ideas for this Quick Start.
 </table>
 </div>
 <div class="paragraph text-left">
-<p>This Quick Start was created by AWS Great China Region Solution Team in collaboration with Amazon Web Services (AWS). <a href="http://aws.amazon.com/quickstart/" target="_blank" rel="noopener">Quick Starts</a> are automated reference deployments that use AWS CloudFormation templates to deploy key technologies on AWS, following AWS best practices.</p>
+<p>This Quick Start was created by AWS Great China Region Solution team in collaboration with Amazon Web Services (AWS). <a href="http://aws.amazon.com/quickstart/" target="_blank" rel="noopener">Quick Starts</a> are automated reference deployments that use AWS CloudFormation templates to deploy key technologies on AWS, following AWS best practices.</p>
 </div>
 </div>
 </div>
@@ -893,10 +898,10 @@ report bugs, or submit feature ideas for this Quick Start.
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This guide provides instructions for deploying the ClickHouse Quick Start reference architecture on the AWS Cloud.</p>
+<p>This Quick Start guide provides instructions for deploying a <a href="https://clickhouse.com/docs/en/" target="_blank" rel="noopener">ClickHouse cluster</a> on the AWS Cloud. ClickHouse is an open-source, column-oriented database management system (DBMS), which can be used for online analytical processing of queries (OLAP).</p>
 </div>
 <div class="paragraph">
-<p><a href="https://clickhouse.tech/">ClickHouse</a> is one of the most popular open-source column-oriented database management system (DBMS), which can be used for online analytical processing of queries(OLAP). ClickHouse on AWS Quick Start enable customers to deploy ClickHouse cluster in AWS Cloud in minutes. During the launch, customers can configure through CloudFormation template to define the desired cluster nodes and settings. The solution offer options for high availability, and it integrates AWS Services such S3, CloudWatch, etc.</p>
+<p>This deployment is for customers who want to process analytical queries using a DBMS, such as MySQL, PostgreSQL, and Oracle Database. During the deployment, customers can configure the AWS CloudFormation templates to define the desired cluster nodes and settings.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -916,7 +921,26 @@ Amazon may share user-deployment information with the AWS Partner that collabora
 <h2 id="_clickhouse_cluster_on_aws">ClickHouse Cluster on AWS</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This Quick Start sets up an Amazon Web Services (AWS) architecture that deploys a ClickHouse cluster on AWS. <a href="https://clickhouse.tech/">ClickHouse</a> is one of the most popular open-source column-oriented database management system (DBMS), which can be used for online analytical processing of queries(OLAP). ClickHouse on AWS Quick Start enable customers to deploy ClickHouse cluster in AWS Cloud in minutes. During the launch, customers can configure through CloudFormation template to define the desired cluster nodes and settings. The solution offer options for high availability, and it integrates AWS Services such S3, CloudWatch, etc.</p>
+<p>ClickHouse is an SQL-based DBMS that customers can use to store, retrieve, and update data. Functions of a DBMS include the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>User-defined catalog of metadata</p>
+</li>
+<li>
+<p>Transaction support</p>
+</li>
+<li>
+<p>Database recovery</p>
+</li>
+<li>
+<p>Access management</p>
+</li>
+<li>
+<p>Database constraints</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -951,7 +975,7 @@ After you deploy the Quick Start, create <a href="https://docs.aws.amazon.com/aw
 <h2 id="_software_licenses">Software licenses</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>No licenses are required to deploy this Quick Start. All AWS service resources consumed during the launch of the Quick Start incur AWS service usage costs.</p>
+<p>No additional licenses are required to deploy this Quick Start.</p>
 </div>
 </div>
 </div>
@@ -978,29 +1002,24 @@ AWS Cloud.</p>
 <p>A highly available architecture that spans two Availability Zones.*</p>
 </li>
 <li>
-<p>A VPC configured with public and private subnets, according to AWS
-best practices, to provide you with your own virtual network on AWS.*</p>
-</li>
+<p>A VPC configured with public and private subnets, according to AWS best practices, to provide you with your own virtual network on AWS.*</p>
+<div class="ulist">
+<ul>
 <li>
-<p>Dynamically generate a random text string stored in <strong>Secrets Manager</strong> to use as a password.</p>
+<p>An internet gateway to allow internet access for bastion hosts.*</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
 <p>In the public subnets:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Managed <strong>network address translation (NAT) gateways</strong> to allow outbound
-internet access for resources in the private subnets.*</p>
+<p>Managed network address translation (NAT) gateways to allow outbound internet access for resources in the private subnets.*</p>
 </li>
 <li>
-<p>A <strong>Linux bastion host</strong> in an Auto Scaling group to allow inbound Secure
-Shell (SSH) access to EC2 instances in public and private subnets.*</p>
-</li>
-<li>
-<p>An <strong>Elastic IP address</strong> is associated with the bastion host.*</p>
-</li>
-<li>
-<p>An <strong>internet gateway</strong> to allow internet access for bastion host.*</p>
+<p>A Linux bastion host in an Auto Scaling group to allow inbound Secure Shell (SSH) access to Amazon EC2 instances in public and private subnets.*</p>
 </li>
 </ul>
 </div>
@@ -1010,60 +1029,31 @@ Shell (SSH) access to EC2 instances in public and private subnets.*</p>
 <div class="ulist">
 <ul>
 <li>
-<p>A <strong>ClickHouse client host</strong> to allow the administrator to connect to the ClickHouse cluster using command line and graphical interface.</p>
+<p>A ClickHouse client in an Auto Scaling group to allow administrators to connect to the ClickHouse cluster.</p>
 </li>
 <li>
-<p>A <strong>ClickHouse database cluster</strong> that includes several EC2 instances. The default is two.</p>
+<p>A ClickHouse database cluster that contains Amazon EC2 instances.</p>
 </li>
 <li>
-<p>A <strong>Zookeeper cluster</strong> that includes three EC2 instances. Metadata for ClickHouse replication is stored in ZooKeeper. Each replica stores its state in ZooKeeper as the set of parts and its checksums. The default is three.</p>
-</li>
-<li>
-<p>A <strong>ELB using Network Load Balancer</strong> that is in front of the ClickHouse cluster.</p>
+<p>A ZooKeeper cluster that contains Amazon EC2 instances for storing metadata for ClickHouse replication. Each replica stores its state in ZooKeeper as the set of parts and its checksums. The default is three.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Three Security Groups</strong> are created, one for bastion and one for ClickHouse cluster and one for Zookeeper cluster.</p>
-<div class="ulist">
-<ul>
-<li>
-<p>A bastion’s Security Group with specific IPs to the inbound rule to allow access from them.</p>
+<p>Elastic Load Balancing for the ClickHouse cluster.</p>
 </li>
 <li>
-<p>A ClickHouse’s Security Group, which add cluster communication port to the inbound rule.</p>
+<p>An Amazon S3 bucket for tiered storage of the ClickHouse cluster.</p>
 </li>
 <li>
-<p>An Admin’s Security Group, which add graphical interface to the inbound rule.</p>
-</li>
-</ul>
-</div>
+<p>Amazon CloudWatch Logs to centralize ClickHouse logs and modify the log-retention policy.</p>
 </li>
 <li>
-<p>A private <strong>S3 bucket</strong> is created for tiered storage (local disk first and S3 with a move factor) of the ClickHouse cluster with the following naming rules: "clickhouse-data-vpcid".</p>
+<p>Amazon Simple Notification Service (Amazon SNS) for sending email notifications when an alarm triggers.</p>
 </li>
 <li>
-<p>An <strong>Amazon CloudWatch Logs</strong> enables you to centralize the logs from the ClickHouse cluster and adjust the log retention policy.</p>
-</li>
-<li>
-<p>An <strong>Amazon CloudWatch dashboard</strong> to monitor the CPU, memory, disk IO and network on the EC2 instances in the ClickHouse and Zookeeper cluster, send an Amazon Simple Notification Service (Amazon SNS) email notification when the alarm is triggered.</p>
-<div class="ulist">
-<ul>
-<li>
-<p>When CPU utilization (cpu_usage_user and cpu_usage_system from CloudWatch agent) higher than 70% and continue more than 5 minutes.</p>
-</li>
-<li>
-<p>When memory utilization (mem_used_percent from CloudWatch agent) higher than 70% and continue more than 5 minutes.</p>
-</li>
-<li>
-<p>Disk IOPS (diskio_writes and diskio_reads from CloudWatch agent).</p>
-</li>
-<li>
-<p>Network throughout (net_bytes_sent and net_bytes_recv from CloudWatch agent).</p>
-</li>
-</ul>
-</div>
+<p>AWS Secrets Manager to store dynamically generated passwords.</p>
 </li>
 </ul>
 </div>
@@ -1084,7 +1074,7 @@ and <a href="https://aws.amazon.com/training/" target="_blank" rel="noopener">AW
 deploy, and operate your infrastructure and applications on the AWS Cloud.</p>
 </div>
 <div class="paragraph">
-<p>This Quick Start assumes familiarity with <a href="https://aws.amazon.com/ec2/">Amazon EC2</a>, <a href="https://aws.amazon.com/vpc/">Amazon VPC</a>, and <a href="https://clickhouse.tech/">ClickHouse</a>.</p>
+<p>This Quick Start assumes familiarity with <a href="https://aws.amazon.com/ec2/" target="_blank" rel="noopener">Amazon EC2</a>, <a href="https://aws.amazon.com/vpc/" target="_blank" rel="noopener">Amazon Virtual Private Cloud (VPC)</a>, and <a href="https://clickhouse.tech/" target="_blank" rel="noopener">ClickHouse</a>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1143,7 +1133,7 @@ deploy, and operate your infrastructure and applications on the AWS Cloud.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CloudWatch dashboard</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amazon CloudWatch dashboard</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
 </tr>
 <tr>
@@ -1159,7 +1149,7 @@ deploy, and operate your infrastructure and applications on the AWS Cloud.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">m5.large instances (Zookeeper cluster)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">m5.large instances (ZooKeeper cluster)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
 </tr>
 <tr>
@@ -1188,6 +1178,15 @@ Certain Regions are available on an opt-in basis. For more information, see <a h
 </td>
 </tr>
 </table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_amazon_ec2_key_pairs">Amazon EC2 key pairs</h4>
+<div class="paragraph">
+<p>Ensure that at least one Amazon EC2 key pair exists in your AWS account in the Region where you plan to deploy the Quick Start. Note the key-pair name because you will use it during deployment. To create a key pair, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html" target="_blank" rel="noopener">Amazon EC2 key pairs and Linux instances</a>.</p>
+</div>
+<div class="paragraph">
+<p>For testing or proof-of-concept purposes, we recommend creating a new key pair instead of using one that’s already being used by a production instance.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1273,13 +1272,16 @@ If you’re deploying ClickHouse into an existing VPC, make sure that your VPC h
 </table>
 </li>
 <li>
-<p>Check the AWS Region that’s displayed in the upper-right corner of the navigation bar, and change it if necessary. This Region is where the network infrastructure for ClickHouse is built. The template is launched in the us-east-1 Region by default. For other choices, see <a href="#_supported_regions">Supported Regions</a> earlier in this guide.</p>
+<p>Check the AWS Region that’s displayed in the upper-right corner of the navigation bar, and change it if necessary. This Region is where the network infrastructure for ClickHouse is built. The template is launched in the us-east-1 Region by default. For other choices, see <a href="#_supported_regions">Supported Regions</a>, earlier in this guide.</p>
 </li>
 <li>
 <p>On the <strong>Create stack</strong> page, keep the default setting for the template URL, and then choose <strong>Next</strong>.</p>
 </li>
 <li>
-<p>On the <strong>Specify stack details</strong> page, change the stack name if needed. Review the parameters for the template. Provide values for the parameters that require input. For all other parameters, review the default settings and customize them as necessary. For details on each parameter, see the <a href="#_parameter_reference">Parameter reference</a> section of this guide. When you finish reviewing and customizing the parameters, choose <strong>Next</strong>.</p>
+<p>On the <strong>Specify stack details</strong> page, change the stack name if needed. Review the parameters for the template, and provide values for any parameters that require input. For all other parameters, review the default settings and customize them as necessary. For more information, see the <a href="#_parameter_reference">Parameter reference</a> section.</p>
+</li>
+<li>
+<p>When you finish reviewing and customizing the parameters, choose <strong>Next</strong>.</p>
 </li>
 <li>
 <p>On the <strong>Configure stack options</strong> page, you can <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html" target="_blank" rel="noopener">specify tags</a> (key-value pairs) for resources in your stack and <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-add-tags.html" target="_blank" rel="noopener">set advanced options</a>. When you finish, choose <strong>Next</strong>.</p>
@@ -1300,11 +1302,11 @@ If you’re deploying ClickHouse into an existing VPC, make sure that your VPC h
 </div>
 </div>
 <div class="sect2">
-<h3 id="_logging_into_a_clickhouse_server_node">Logging into a ClickHouse server node</h3>
+<h3 id="_log_in_to_a_clickhouse_server_node">Log in to a ClickHouse server node</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Locate your private key file. The key used to launch such as clickhouse.pem. Run following command to ensure your key is not publicly viewable.</p>
+<p>Locate your private key, which is used to launch <code>clickhouse.pem</code>. Run the following command to ensure your key is not publicly viewable:</p>
 </li>
 </ol>
 </div>
@@ -1316,7 +1318,7 @@ If you’re deploying ClickHouse into an existing VPC, make sure that your VPC h
 <div class="olist arabic">
 <ol class="arabic" start="2">
 <li>
-<p>Upload the PEM key pair from local to the bastion host. For example:</p>
+<p>Upload the PEM key pair to the bastion host:</p>
 </li>
 </ol>
 </div>
@@ -1328,7 +1330,7 @@ If you’re deploying ClickHouse into an existing VPC, make sure that your VPC h
 <div class="olist arabic">
 <ol class="arabic" start="3">
 <li>
-<p>Sign into the bastion host.</p>
+<p>Sign in to the bastion host:</p>
 </li>
 </ol>
 </div>
@@ -1340,14 +1342,14 @@ If you’re deploying ClickHouse into an existing VPC, make sure that your VPC h
 <div class="olist arabic">
 <ol class="arabic" start="4">
 <li>
-<p>Get the IP address from the Amazon EC2 console.</p>
+<p>Obtain the IP address from the Amazon EC2 console.</p>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>Open the <a href="https://console.aws.amazon.com/ec2/">Amazon EC2 console</a>.</p>
+<p>Navigate to the <a href="https://console.aws.amazon.com/ec2/" target="_blank" rel="noopener">Amazon EC2 console</a>.</p>
 </li>
 <li>
-<p>On the <strong>Instances</strong> screen, select the checkbox for the instance. Note the <strong>Private IPs</strong> in the <strong>Description</strong> tab, as shown in <a href="#IPaddress">Figure 2</a>.</p>
+<p>On the <strong>Instances</strong> page, select the check box for your instance. In the <strong>Description</strong> tab, note the <strong>Private IPs</strong>, as shown in <a href="#IPaddress">Figure 2</a>.</p>
 </li>
 </ol>
 </div>
@@ -1358,12 +1360,12 @@ If you’re deploying ClickHouse into an existing VPC, make sure that your VPC h
 <div class="content">
 <a class="image" href="images/ec2.png"><img src="images/ec2.png" alt="ClickHouseClientAddress" width="75%" height="75%"></a>
 </div>
-<div class="title">Figure 2. EC2 instance private IP address</div>
+<div class="title">Figure 2. Private IP address for Amazon EC2 instance</div>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="5">
 <li>
-<p>From the bastion host, make sure the PEM key pair file in the current bastion host directory and log into the client node with the IP address. For example:</p>
+<p>From the bastion host, ensure that the PEM key pair file is in the bastion host directory, and then log in to the client node:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-bash" data-lang="bash">(ec2-user@ip-11-11-11-11) $ ssh -i "clickhouse.pem" ec2-user@ec2-22-22-22-22.compute-1.amazonaws.com
@@ -1381,20 +1383,20 @@ Run "sudo yum update" to apply all updates.
 </div>
 </li>
 <li>
-<p>Once you are signed into the client node, you can use <a href="https://clickhouse.tech/docs/en/interfaces/cli/">ClickHouse command-line client</a> to query, manage, and diagnose issues.</p>
+<p>To query, manage, and diagnose issues, use the <a href="https://clickhouse.tech/docs/en/interfaces/cli/" target="_blank" rel="noopener">ClickHouse command line client</a>.</p>
 </li>
 </ol>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_viewing_the_grafana_web_console_in_a_browser">Viewing the Grafana web console in a browser</h3>
+<h3 id="_grafana_web_console">Grafana web console</h3>
 <div class="paragraph">
-<p>The default deployment installs the Grafana web console on the ClickHouse client host which in the private subnets, they cannot be accessed directly through a browser. To access port 3000 of the private IP address of the Grafana server, configure an SSH connection with the bastion host SSH tunnel. Then use the SSH tunnel to access the web console.</p>
+<p>By default, the deployment installs the Grafana web console on the ClickHouse client host in the private subnets. The subnets cannot be accessed directly through a browser. To access port <code>3000</code> of the private IP address of the Grafana server, configure an SSH (Secure Shell) connection using the tunnel of the bastion host. Then use the SSH tunnel to access the web console.</p>
 </div>
 <div id="step1" class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Establish a connection with the bastion host using SSH with the following command. Replace <code><em>port number</em></code>, <code><em>key pair.pem</em></code>, <code><em>user name</em></code>, and <code><em>host name</em></code> with your parameters.</p>
+<p>Connect to the bastion host using SSH. Replace <code>port number</code>, <code>key pair.pem</code>, <code>user name</code>, and <code>host name</code> with your parameters:</p>
 <div class="paragraph">
 <p><code>ssh -qTfnN -D <em>port number</em> -i "<em>key pair.pem</em>" <em>user name</em>@<em>host name</em></code></p>
 </div>
@@ -1406,36 +1408,30 @@ Run "sudo yum update" to apply all updates.
 </div>
 </li>
 <li>
-<p>Set up a proxy manager in your browser. There are many proxy manager plug-ins available. These instructions use SwitchyOmega.</p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>Install the SwitchyOmega plug-in.</p>
+<p>Set up a proxy manager, such as Proxy SwitchyOmega, in your browser. There are many proxy manager plugins available. The following example uses <a href="https://chrome.google.com/webstore/detail/proxy-switchyomega/padekgcemlokbadohgkifijomclgjgif" target="_blank" rel="noopener">Proxy SwitchyOmega</a>.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://microsoftedge.microsoft.com/addons/detail/proxy-switchyomega/fdbloeknjpnloaggplaobopplkdhnikc?hl=en-US">Microsoft Edge</a></p>
+<p><a href="https://microsoftedge.microsoft.com/addons/detail/proxy-switchyomega/fdbloeknjpnloaggplaobopplkdhnikc?hl=en-US" target="_blank" rel="noopener">Install Proxy SwitchyOmega for Microsoft Edge</a></p>
 </li>
 <li>
-<p><a href="https://addons.mozilla.org/en-US/firefox/addon/switchyomega/?utm_source=addons.mozilla.org&amp;utm_medium=referral&amp;utm_content=search">Firefox</a></p>
+<p><a href="https://addons.mozilla.org/en-US/firefox/addon/switchyomega/?utm_source=addons.mozilla.org&amp;utm_medium=referral&amp;utm_content=search" target="_blank" rel="noopener">[Install Proxy SwitchyOmega for Mozilla Firefox</a></p>
 </li>
 <li>
-<p><a href="https://chrome.google.com/webstore/detail/proxy-switchyomega/padekgcemlokbadohgkifijomclgjgif?hl=en-US">Google Chrome</a></p>
-</li>
-</ul>
-</div>
-</li>
+<p><a href="https://chrome.google.com/webstore/detail/proxy-switchyomega/padekgcemlokbadohgkifijomclgjgif?hl=en-US" target="_blank" rel="noopener">[Install Proxy SwitchyOmega for Google Chrome</a>]</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
 <li>
-<p>Open the SwitchyOmega options page and select <strong>New Profile</strong> in the left sidebar.</p>
+<p>Open the SwitchyOmega <strong>Options</strong> page, and choose <strong>New Profile</strong> in the left sidebar.</p>
 <div id="addprofile" class="imageblock">
 <div class="content">
 <a class="image" href="images/SwitchyOmega1.png"><img src="images/switchyOmega1.png" alt="SwitchyOmega" width="50%" height="50%"></a>
 </div>
-<div class="title">Figure 3. Add new SwitchyOmega profile</div>
+<div class="title">Figure 3. Add a new SwitchyOmega profile.</div>
 </div>
 </li>
 <li>
-<p>Enter a name and select <strong>Create</strong>.</p>
+<p>Enter a name, and choose <strong>Create</strong>.</p>
 <div id="profilename" class="imageblock">
 <div class="content">
 <a class="image" href="images/SwitchyOmega2.png"><img src="images/switchyOmega2.png" alt="SwitchyOmega" width="50%" height="50%"></a>
@@ -1444,40 +1440,43 @@ Run "sudo yum update" to apply all updates.
 </div>
 </li>
 <li>
-<p>Enter the <strong>Protocol</strong>, <strong>Server</strong>, and <strong>Port</strong> for proxy server. The port should be the local port where you set up the SSH tunnel in <a href="#_step1">step 1</a>.</p>
+<p>Provide the protocol, server, and port for the proxy server. The port is the local port where you set up the SSH tunnel.</p>
 <div id="proxyserverinfo" class="imageblock">
 <div class="content">
-<a class="image" href="images/SwitchyOmega3.png"><img src="images/SwitchyOmega3.png" alt="SwitchyOmega" width="50%" height="50%"></a>
+<a class="image" href="images/SwitchyOmega3.png"><img src="images/switchyOmega3.png" alt="SwitchyOmega" width="50%" height="50%"></a>
 </div>
-<div class="title">Figure 5. Proxy servers</div>
+<div class="title">Figure 5. Proxy servers.</div>
 </div>
 </li>
 <li>
-<p>Select <strong>Apply Changes</strong>.</p>
+<p>Choose <strong>Apply Changes</strong>.</p>
 </li>
 <li>
-<p>Access SwitchyOmega through the extension icon of your browser. Select your created profile in the proxy list. The browser will send all traffic through the local port 40011 proxy to the bastion host.</p>
+<p>Access SwitchyOmega through the extension in your browser. Choose your created profile in the proxy list. The browser sends all traffic through port <code>40011</code> to the bastion host.</p>
+</li>
+</ol>
+</div>
 <div id="proxylist" class="imageblock">
 <div class="content">
 <a class="image" href="images/SwitchyOmega4.png"><img src="images/switchyOmega4.png" alt="SwitchyOmega" width="50%" height="50%"></a>
 </div>
-<div class="title">Figure 6. Proxy list</div>
+<div class="title">Figure 6. Proxy list.</div>
 </div>
 </li>
-</ol>
+</ul>
 </div>
 </li>
 <li>
-<p>To view the Grafana web console on the ClickHouse client host in your browser, navigate to <code>http://10.0.xx.xx:3000</code>. Replace <code>xx.xx</code> with the private IP address of the client host. You can find the private IP address of the server named <code>ClickHouseAdminClient</code> in the EC2 console.</p>
+<p>To view the Grafana web console on the ClickHouse client host, navigate to <code><a href="http://10.0.xx.xx:3000" class="bare">http://10.0.xx.xx:3000</a></code> (replace <code>xx.xx</code> with the private IP address of the client host). You can find the private IP address of the server named <code>ClickHouseAdminClient</code> in the Amazon EC2 console.</p>
 <div id="ec2console" class="imageblock">
 <div class="content">
-<a class="image" href="images/ec2.png"><img src="images/ec2.png" alt="ec2" width="90%" height="90%"></a>
+<a class="image" href="images/ec2.png"><img src="images/ec2.png" alt="ec2" width="50%" height="50%"></a>
 </div>
-<div class="title">Figure 7. Private IP address of the ClickHouse client host in the EC2 console</div>
+<div class="title">Figure 7. Private IP address of the ClickHouse client host in the Amazon EC2 console.</div>
 </div>
 <div id="webconsole" class="imageblock">
 <div class="content">
-<a class="image" href="images/GrafanaConsole.png"><img src="images/GrafanaConsole.png" alt="console" width="90%" height="90%"></a>
+<a class="image" href="images/GrafanaConsole.png"><img src="images/GrafanaConsole.png" alt="console" width="50%" height="50%"></a>
 </div>
 <div class="title">Figure 8. Grafana web console</div>
 </div>
@@ -1487,12 +1486,12 @@ Run "sudo yum update" to apply all updates.
 <div class="olist arabic">
 <ol class="arabic" start="4">
 <li>
-<p>The username is admin, to get the password of Grafana web console, navigate to the CloudFormation stack console and click the outputs. You can find the link of the parameter named <code>DBPassword</code>.</p>
+<p>The user name is <code>admin</code>. To retrieve the password for the Grafana web console, navigate to the AWS CloudFormation console, choose <strong>Outputs</strong>, and search for the <code>DBPassword</code> parameter.</p>
 <div id="cloudformationconsole" class="imageblock">
 <div class="content">
-<a class="image" href="images/cloudformation_outputs.png"><img src="images/cloudformation_outputs.png" alt="console" width="90%" height="90%"></a>
+<a class="image" href="images/cloudformation_outputs.png"><img src="images/cloudformation_outputs.png" alt="console" width="50%" height="50%"></a>
 </div>
-<div class="title">Figure 9. CloudFormation outputs</div>
+<div class="title">Figure 9. AWS CloudFormation outputs</div>
 </div>
 </li>
 </ol>
@@ -1500,21 +1499,24 @@ Run "sudo yum update" to apply all updates.
 <div class="olist arabic">
 <ol class="arabic" start="5">
 <li>
-<p>Navigate to the Secrets Manager console and click the <code>Retrieve secret value</code>. You can find the password.</p>
+<p>To find the password, navigate to the AWS Secrets Manager console, and choose <strong>Retrieve secret value</strong>.</p>
 <div id="secretsmanagerconsole" class="imageblock">
 <div class="content">
-<a class="image" href="images/secretsmanager.png"><img src="images/secretsmanager.png" alt="console" width="90%" height="90%"></a>
+<a class="image" href="images/secretsmanager.png"><img src="images/secretsmanager.png" alt="console" width="50%" height="50%"></a>
 </div>
-<div class="title">Figure 10. Secrets Manager console</div>
+<div class="title">Figure 10. AWS Secrets Manager console</div>
 </div>
 </li>
 </ol>
 </div>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_resources">Resources</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="_clickhouse_resources">ClickHouse resources</h3>
-<div class="sect3">
-<h4 id="_clickhouse_server_nodes">ClickHouse server nodes</h4>
+<h3 id="_clickhouse_server_nodes">ClickHouse server nodes</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1524,23 +1526,23 @@ Run "sudo yum update" to apply all updates.
 <p>ClickHouse server data directory in local file storage: <code>/home/clickhouse/data</code></p>
 </li>
 <li>
-<p>ClickHouse server data directory in S3 bucket name like: <code>clickhouse-data-vpcid</code></p>
+<p>ClickHouse server data directory in S3 bucket: <code>clickhouse-data-vpcid</code></p>
 </li>
 <li>
-<p>Deployment script installation log used to troubleshoot error messages: <code>/home/ec2-user/ch-install.log</code></p>
+<p>Deployment script installation log to troubleshoot error messages: <code>/home/ec2-user/ch-install.log</code></p>
 </li>
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_clickhouse_client_nodes">ClickHouse client nodes</h4>
+<div class="sect2">
+<h3 id="_clickhouse_client_nodes">ClickHouse client nodes</h3>
 <div class="ulist">
 <ul>
 <li>
 <p>ClickHouse client installation directory: <code>/etc/clickhouse-client</code></p>
 </li>
 <li>
-<p>Deployment script installation log used to troubleshoot error messages: <code>/home/ec2-user/clickhouse-client-install.log</code></p>
+<p>Deployment script installation log to troubleshoot error messages: <code>/home/ec2-user/clickhouse-client-install.log</code></p>
 </li>
 <li>
 <p>Grafana web console: <code>/etc/grafana</code></p>
@@ -1548,12 +1550,12 @@ Run "sudo yum update" to apply all updates.
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_zookeeper_server_nodes">Zookeeper server nodes</h4>
+<div class="sect2">
+<h3 id="_zookeeper_server_nodes">ZooKeeper server nodes</h3>
 <div class="ulist">
 <ul>
 <li>
-<p>Apache Zookeeper installation directory: <code>/usr/local/apache-zookeeper-3.5.9-bin/</code></p>
+<p>Apache ZooKeeper installation directory: <code>/usr/local/apache-zookeeper-3.5.9-bin/</code></p>
 </li>
 <li>
 <p>Deployment script installation logs: <code>/home/ec2-user/zk.log</code></p>
@@ -1563,26 +1565,22 @@ Run "sudo yum update" to apply all updates.
 </div>
 </div>
 </div>
-</div>
 <div class="sect1">
-<h2 id="_best_practices_for_using_clickhouse_on_aws">Best practices for using ClickHouse on AWS</h2>
+<h2 id="_clickhouse_resources">ClickHouse resources</h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://clickhouse.tech/blog/en/2021/reading-from-external-memory/">A journey to io_uring, AIO and modern storage devices</a></p>
+<p><a href="https://clickhouse.tech/blog/en/2021/reading-from-external-memory/" target="_blank" rel="noopener">A journey to io_uring, AIO and modern storage devices</a></p>
 </li>
 <li>
-<p><a href="https://habr.com/en/company/yandex/blog/457612/">How to speed up LZ4 decompression in ClickHouse</a></p>
+<p><a href="https://habr.com/en/company/yandex/blog/457612/" target="_blank" rel="noopener">How to speed up LZ4 decompression in ClickHouse?</a></p>
 </li>
 <li>
-<p><a href="https://clickhouse.tech/blog/en/2021/fuzzing-clickhouse/">Fuzzing ClickHouse</a></p>
+<p><a href="https://clickhouse.tech/blog/en/2021/fuzzing-clickhouse/" target="_blank" rel="noopener">Fuzzing ClickHouse</a></p>
 </li>
 <li>
-<p><a href="https://habr.com/en/company/yandex/blog/485096/">Five Methods For Database Obfuscation</a></p>
-</li>
-<li>
-<p><a href="https://aws.amazon.com/cn/blogs/china/explore-three-ways-to-combine-clickhouse-and-amazon-s3/">Explore three ways to combine ClickHouse and Amazon s3</a></p>
+<p><a href="https://habr.com/en/company/yandex/blog/485096/" target="_blank" rel="noopener">Five Methods For Database Obfuscation</a></p>
 </li>
 </ul>
 </div>
@@ -1618,24 +1616,11 @@ When you set <strong>Rollback on failure</strong> to <strong>Disabled</strong>, 
 <div class="paragraph">
 <p><strong>A.</strong> Launch the Quick Start templates from the links in this guide or from another S3 bucket. If you deploy the templates from a local copy on your computer or from a location other than an S3 bucket, you might encounter template-size limitations. For more information, see <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html" target="_blank" rel="noopener">AWS CloudFormation quotas</a>.</p>
 </div>
+<div class="paragraph">
+<p><strong>Q.</strong> How can I access ClickHouse internal logs?</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_troubleshooting">Troubleshooting</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p>How can I access the ClickHouse internal logs?</p>
-<div class="ulist">
-<ul>
-<li>
-<p>On the CloudFormation service page, select the quickstart stack you just created and click the <code>CloudWatchDashboard</code> link in the Outputs, the internal ClickHouse and Zookeeper logs are found in the dashboard.</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
+<div class="paragraph">
+<p><strong>A.</strong> Internal ClickHouse and ZooKeeper logs are found in the dashboard. On the AWS CloudFormation <strong>Service</strong> page, choose the Quick Start stack you created, and then choose <code>CloudWatchDashboard</code> from <strong>Outputs</strong>.</p>
 </div>
 </div>
 </div>
@@ -1644,23 +1629,6 @@ When you set <strong>Rollback on failure</strong> to <strong>Disabled</strong>, 
 <div class="sectionbody">
 <div class="paragraph">
 <p>After you successfully deploy this Quick Start, confirm that your resources and services are updated and configured — including any required patches — to meet your security and other needs. For more information, see the <a href="https://aws.amazon.com/compliance/shared-responsibility-model/" target="_blank" rel="noopener">AWS Shared Responsibility Model</a>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_parameter_reference">Parameter reference</h2>
-<div class="sectionbody">
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Unless you are customizing the Quick Start templates for your own deployment projects, keep the default settings for the parameters labeled <strong>Quick Start S3 bucket name</strong>, <strong>Quick Start S3 bucket Region</strong>, and <strong>Quick Start S3 key prefix</strong>. Changing these parameter settings automatically updates code references to point to a new Quick Start location. For more information, see the <a href="https://aws-quickstart.github.io/option1.html" target="_blank" rel="noopener">AWS Quick Start Contributor’s Guide</a>.
-</td>
-</tr>
-</table>
 </div>
 </div>
 </div>
@@ -1706,16 +1674,16 @@ and to share your customizations with others.</p>
 <p class="footer-text">
 <!-- We can use document attributes: -->
 <!-- Generated with Asciidoctor v2.0.15. -->
-<a href="https://aws.amazon.com/privacy/">Privacy</a> | <a href="https://aws.amazon.com/terms/">Site terms</a> | &copy; 2021, Amazon Web Services, Inc. or its affiliates and AWS Great China Region Solution Team. All rights reserved.
+<a href="https://aws.amazon.com/privacy/">Privacy</a> | <a href="https://aws.amazon.com/terms/">Site terms</a> | &copy; 2021, Amazon Web Services, Inc. or its affiliates and AWS Great China Region Solution team. All rights reserved.
 </p>
 </body>
 </html>
 <!--
 repo commit:
-c62103dfe793065a0d4b8c86c0ff9baf7359cc30
+c1d2b0e2de3a9740eaaef1bfbdb4a5d728d5adf9
 
 submodule config:
  eea042d0b9c005d2549a71349e5f28b02c81af75 docs/boilerplate (heads/main)
  ffc7af4e59a09dbf52199a3ecf70f3805abeff48 submodules/quickstart-aws-vpc (v1.0-58-gffc7af4)
- b9950be657d8a8c76e71fca157b4952a587342f4 submodules/quickstart-linux-bastion (remotes/origin/logging-70-gb9950be)
+ 9aa7aedb1b35a28a1b0f7d8773319f75cce4b787 submodules/quickstart-linux-bastion (heads/main)
 -->
